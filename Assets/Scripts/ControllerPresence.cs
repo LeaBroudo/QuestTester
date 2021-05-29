@@ -90,10 +90,10 @@ public class ControllerPresence : MonoBehaviour
 
         if (controllerInput.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue)) {
 
-            handAnimator.SetFloat("Trigger", triggerValue);
+            handAnimator.SetFloat("TriggerButton", triggerValue);
         }
         else {
-            handAnimator.SetFloat("Trigger", 0);
+            handAnimator.SetFloat("TriggerButton", 0);
         }
 
         if (controllerInput.TryGetFeatureValue(CommonUsages.grip, out float gripValue)) {
