@@ -57,8 +57,8 @@ MonoBehaviour:
   m_ModelSelectTransition: 
   m_ModelDeSelectTransition: 
   m_ControllerNode: 6
-  m_SelectUsage: 2
-  m_ActivateUsage: 2
+  m_SelectUsage: 14
+  m_ActivateUsage: 14
   m_UIPressUsage: 2
   m_AxisToPressThreshold: 0.2
   m_RotateAnchorLeft: 16

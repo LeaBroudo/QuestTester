@@ -20,14 +20,11 @@ public class ControllerPresence : MonoBehaviour
     public bool primaryButtonValue = false;
     public Vector2 primary2DAxisValue = new Vector2(0,0);
     public float gripValue = 0f;
-    public SceneRefManager sceneRefManager;
 
     // Start is called before the first frame update
     void Start()
     {
         FindController(); 
-        
-        sceneRefManager = GameObject.Find("SceneManager").GetComponent<SceneRefManager>();
     }
 
     // Update is called once per frame

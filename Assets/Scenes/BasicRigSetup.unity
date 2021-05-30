@@ -670,6 +670,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1314438604}
     m_Modifications:
     - target: {fileID: 5170936060243501248, guid: c4f27b1ea82a4475cb2d296862af1198, type: 3}
+      propertyPath: m_UIPressUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170936060243501248, guid: c4f27b1ea82a4475cb2d296862af1198, type: 3}
       propertyPath: m_ControllerNode
       value: 5
       objectReference: {fileID: 0}
@@ -915,8 +919,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 1, g: 0, b: 0, a: 0}
+    key1: {r: 1, g: 0, b: 0, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1855,8 +1859,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 1, g: 0, b: 0, a: 0}
+    key1: {r: 1, g: 0, b: 0, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2431,7 +2435,7 @@ RectTransform:
   - {fileID: 83182362}
   - {fileID: 704798450}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2553,6 +2557,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftTeleportRay: {fileID: 739908182}
   rightTeleportRay: {fileID: 1431970327}
+  leftInteractionRay: {fileID: 818524528}
+  rightInteractionRay: {fileID: 517051587}
   activationThreshold: 0.1
 --- !u!114 &1011433572
 MonoBehaviour:
@@ -2574,6 +2580,7 @@ MonoBehaviour:
   m_TurnUsage: 0
   m_Controllers:
   - {fileID: 2136207643}
+  - {fileID: 1642828932}
   m_DeadZone: 0.75
 --- !u!1 &1013771821
 GameObject:
@@ -2749,52 +2756,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1052616750
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1052616753}
-  - component: {fileID: 1052616751}
-  m_Layer: 0
-  m_Name: SceneManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1052616751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1052616750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f80720e310e3c4d02aab4b2fdd46baa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftController: {fileID: 0}
-  rightController: {fileID: 0}
---- !u!4 &1052616753
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1052616750}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1162656845
 GameObject:
@@ -3389,6 +3351,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1314438604}
     m_Modifications:
+    - target: {fileID: 5170936060243501248, guid: c4f27b1ea82a4475cb2d296862af1198, type: 3}
+      propertyPath: m_UIPressUsage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5170936060243501248, guid: c4f27b1ea82a4475cb2d296862af1198, type: 3}
       propertyPath: m_ControllerNode
       value: 4
@@ -4204,7 +4170,7 @@ Transform:
   m_GameObject: {fileID: 1809342480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.05, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 9.8894, y: 9.8894, z: 9.8894}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
