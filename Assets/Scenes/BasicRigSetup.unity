@@ -568,6 +568,7 @@ GameObject:
   - component: {fileID: 1011433570}
   - component: {fileID: 1011433569}
   - component: {fileID: 1011433571}
+  - component: {fileID: 1011433572}
   m_Layer: 0
   m_Name: VRRig
   m_TagString: Untagged
@@ -622,7 +623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Timeout: 10
-  m_XRRig: {fileID: 0}
+  m_XRRig: {fileID: 1011433567}
 --- !u!114 &1011433570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,10 +651,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftTeleportRay: {fileID: 739908182}
   rightTeleportRay: {fileID: 1431970327}
-  leftController: {fileID: 0}
-  rightController: {fileID: 0}
-  teleportActivationButton: 0
   activationThreshold: 0.1
+--- !u!114 &1011433572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4f2c0214c9b494fa7eb5b8b2c02885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_System: {fileID: 1011433569}
+  m_TurnAmount: 45
+  m_DebounceTime: 0.5
+  m_EnableTurnLeftRight: 1
+  m_EnableTurnAround: 1
+  m_TurnUsage: 0
+  m_Controllers:
+  - {fileID: 2136207643}
+  m_DeadZone: 0.75
 --- !u!1 &1052616750
 GameObject:
   m_ObjectHideFlags: 0

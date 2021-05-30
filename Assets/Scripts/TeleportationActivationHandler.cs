@@ -34,7 +34,6 @@ public class TeleportationActivationHandler : MonoBehaviour
 
         //Debug.Log("XX inputs: "+controller.inputDevice + " " + teleportActivationButton);
         controller.inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerVal);
-        Debug.Log("XX is active: "+(triggerVal > activationThreshold) + " " + controller.inputDevice.name + " "+triggerVal);
         return triggerVal > activationThreshold;
     }
 }
