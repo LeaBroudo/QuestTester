@@ -7,19 +7,27 @@ public class ControllerPresence : MonoBehaviour
 {
     public List<GameObject> controllerPrefabs;
     public GameObject handModelPrefab; 
+    
     private InputDevice controllerInput;
-
     public InputDeviceCharacteristics controllerCharacteristics; 
+
     public GameObject spawnedController;
     public GameObject spawnedHand;
     private Animator handAnimator;
     
     public bool showController = false;
+    public float triggerValue = 0f;
+    public bool primaryButtonValue = false;
+    public Vector2 primary2DAxisValue = new Vector2(0,0);
+    public float gripValue = 0f;
+    public SceneRefManager sceneRefManager;
 
     // Start is called before the first frame update
     void Start()
     {
         FindController(); 
+        
+        sceneRefManager = GameObject.Find("SceneManager").GetComponent<SceneRefManager>();
     }
 
     // Update is called once per frame
@@ -50,17 +58,21 @@ public class ControllerPresence : MonoBehaviour
 
     private void BroadcastButtonBindings(InputDevice controller) {
         
-        controller.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
-        if (primaryButtonValue) 
-            Debug.Log("Pressing Primary Button "+controller.name);
+        controller.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonVal);
+        primaryButtonValue = primaryButtonVal;
+        //Debug.Log("Pressing Primary Button "+controller.name);
 
-        controller.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue);
-        if (triggerValue > 0.1f) 
-            Debug.Log("Trigger pressed "+controller.name+": "+triggerValue);
+        controller.TryGetFeatureValue(CommonUsages.trigger, out float triggerVal);
+        triggerValue = triggerVal;
+        Debug.Log("Trigger pressed "+controller.name+": "+triggerValue);
 
-        controller.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxisValue);
-        if (primary2DAxisValue != Vector2.zero) 
-            Debug.Log("Primary Touchpad "+controller.name+": " + primary2DAxisValue);
+        controller.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxisVal);
+        primary2DAxisValue = primary2DAxisVal;
+        //Debug.Log("Primary Touchpad "+controller.name+": " + primary2DAxisValue);
+
+        controllerInput.TryGetFeatureValue(CommonUsages.grip, out float gripVal);
+        gripValue = gripVal;
+        //Debug.Log("Grip Value "+controller.name+": " + gripValue);
 
     }
 
