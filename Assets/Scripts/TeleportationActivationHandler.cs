@@ -43,7 +43,7 @@ public class TeleportationActivationHandler : MonoBehaviour
         //return triggerVal > activationThreshold;
 
         controller.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 joystickVal);
-        Debug.Log("XX inputs: "+controller.inputDevice + " " + joystickVal);
+        //Debug.Log("XX inputs: "+controller.inputDevice + " " + joystickVal);
         return joystickVal.y > activationThreshold;
     }
 
