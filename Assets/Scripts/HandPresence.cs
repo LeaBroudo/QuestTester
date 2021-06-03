@@ -23,7 +23,7 @@ public class HandPresence : MonoBehaviour
     void Update()
     {
         //if (hand.HandConfidence == OVRHand.TrackingConfidence.Low) { //TODO: transparency for this conditional
-        if (hand.IsTracked && !controllerHelper.activeController) {  
+        if (hand.IsTracked && !isControllerConnected()) {  
             bool isIndexFingerPinching = hand.GetFingerIsPinching(OVRHand.HandFinger.Index);
             float indexFingerPinchStrength = hand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
             OVRHand.TrackingConfidence confidence = hand.GetFingerConfidence(OVRHand.HandFinger.Index);
@@ -43,5 +43,13 @@ public class HandPresence : MonoBehaviour
                 handRenderer.enabled = false; 
             }
         }
+    }
+
+    public bool isControllerConnected() {
+        bool controllerConnected = OVRInput.IsControllerConnected(controllerHelper.m_controller);
+		bool activeController = (controllerConnected && (controllerHelper.m_controller == OVRInput.Controller.LTouch)) || 
+            (controllerConnected && (controllerHelper.m_controller == OVRInput.Controller.RTouch));
+
+        return activeController;
     }
 }
