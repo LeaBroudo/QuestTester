@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class HandPresence : MonoBehaviour
 {
-    private OVRHand hand; 
+    public bool shouldShowHandPrefabs = false;
+    public OVRHand hand; 
     private SkinnedMeshRenderer handRenderer;
 
-    public OVRControllerHelper controllerHelper;
-
-    private float lowConfidenceTime = 0;
-    private float maxLowConfidenceTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,33 +20,33 @@ public class HandPresence : MonoBehaviour
     void Update()
     {
         //if (hand.HandConfidence == OVRHand.TrackingConfidence.Low) { //TODO: transparency for this conditional
-        if (hand.IsTracked && !isControllerConnected()) {  
-            bool isIndexFingerPinching = hand.GetFingerIsPinching(OVRHand.HandFinger.Index);
-            float indexFingerPinchStrength = hand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
-            OVRHand.TrackingConfidence confidence = hand.GetFingerConfidence(OVRHand.HandFinger.Index);
+        // if (hand.IsTracked && !isControllerConnected()) {  
+        //     bool isIndexFingerPinching = hand.GetFingerIsPinching(OVRHand.HandFinger.Index);
+        //     float indexFingerPinchStrength = hand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
+        //     OVRHand.TrackingConfidence confidence = hand.GetFingerConfidence(OVRHand.HandFinger.Index);
 
-            Debug.Log(this.name+"\nisIndexFingerPinching: "+isIndexFingerPinching+"\nindexFingerPinchStrength: "+indexFingerPinchStrength +"\nconfidence: "+confidence);
+        //     Debug.Log(this.name+"\nisIndexFingerPinching: "+isIndexFingerPinching+"\nindexFingerPinchStrength: "+indexFingerPinchStrength +"\nconfidence: "+confidence);
 
-            lowConfidenceTime = 0;
-            if (!handRenderer.enabled) {
-                handRenderer.enabled = true; 
-            }
-
-        } else {
-            Debug.Log("Low confidence hand");
             
-            lowConfidenceTime += Time.deltaTime;
-            if (lowConfidenceTime > maxLowConfidenceTime) {
-                handRenderer.enabled = false; 
-            }
+
+        // } else {
+            
+        // }
+    }
+
+    public void ShowHandPrefab() {
+
+        if (!handRenderer.enabled) {
+            handRenderer.enabled = true; 
         }
     }
 
-    public bool isControllerConnected() {
-        bool controllerConnected = OVRInput.IsControllerConnected(controllerHelper.m_controller);
-		bool activeController = (controllerConnected && (controllerHelper.m_controller == OVRInput.Controller.LTouch)) || 
-            (controllerConnected && (controllerHelper.m_controller == OVRInput.Controller.RTouch));
-
-        return activeController;
+    public void HideHandPrefab() {
+        
+        Debug.Log("Not tracking hands or show controller instead.");
+            
+        if (handRenderer.enabled) {
+            handRenderer.enabled = false; 
+        }
     }
 }
