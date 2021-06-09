@@ -42,13 +42,13 @@ public class InputDeviceManager : MonoBehaviour
             //Turn on Hand related objects
             HandInteractionObjects.SetActive(true);
 
-            if (leftHandPresence.hand.IsTracked) {
+            if (leftHandPresence.isTracked()) {
                 leftHandPresence.ShowHandPrefab();
             } else {
                 leftHandPresence.HideHandPrefab();
             }
 
-            if (rightHandPresence.hand.IsTracked) {
+            if (rightHandPresence.isTracked()) {
                 rightHandPresence.ShowHandPrefab();
             } else {
                 rightHandPresence.HideHandPrefab();
