@@ -8,12 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BasicRigSetup.unity
     guid: b09398ca38f8248ecb0e85dc15cfb56a
   - enabled: 0
     path: Assets/Oculus/SampleFramework/Usage/Locomotion.unity
     guid: 024cd9dcd49bd8f46a6bea03aa8a21bb
+  - enabled: 1
+    path: Assets/Scenes/HandsOnly.unity
+    guid: f612a02bb9f7d489fba192fb81803980
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 08430ae8e77714277b2e427273e0b4ec, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0b30a40f26acc41299ce07bf898a7a33, type: 2}
