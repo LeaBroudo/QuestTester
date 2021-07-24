@@ -83,16 +83,16 @@ public class HandGestures : MonoBehaviour
         if (confidence == OVRHand.TrackingConfidence.High) {
 
             if (isIndexPinching_new && !isIndexPinching) {
-                Debug.Log("IndexPinchingStarted");
+                //Debug.Log("IndexPinchingStarted");
                 IndexPinchingStarted.Invoke();
             } 
             else if (!isIndexPinching_new && isIndexPinching) {
-                Debug.Log("IndexPinchingEnded");
+                //Debug.Log("IndexPinchingEnded");
                 IndexPinchingEnded.Invoke();
             } 
             
             if (isIndexPinching_new) {
-                Debug.Log("IndexIsPinching");
+                //Debug.Log("IndexIsPinching");
                 IndexIsPinching.Invoke();
             }
 
@@ -111,16 +111,16 @@ public class HandGestures : MonoBehaviour
         bool isHandPointing_new = hand.IsPointerPoseValid;
 
         if (isHandPointing_new && !isHandPointing) {
-            Debug.Log("HandPointingStarted");
+            //Debug.Log("HandPointingStarted");
             HandPointingStarted.Invoke(hand.PointerPose, hand.gameObject.transform.position);
         } 
         else if (!isHandPointing_new && isHandPointing) {
-            Debug.Log("HandPointingEnded");
+            //Debug.Log("HandPointingEnded");
             HandPointingEnded.Invoke(hand.PointerPose, hand.gameObject.transform.position);
         } 
         
         if (isHandPointing_new) {
-            Debug.Log("HandIsPointing");
+            //Debug.Log("HandIsPointing");
             HandIsPointing.Invoke(hand.PointerPose, hand.gameObject.transform.position);
         }
 
