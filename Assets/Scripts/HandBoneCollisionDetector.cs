@@ -6,12 +6,13 @@ using UnityEngine.Events;
 public class HandBoneCollisionDetector : MonoBehaviour
 {
     
-    public GameObject currentCollidingObj;
-
     private SphereCollider sphereCollider;
 
     private PokeEvent CollisionStarted;
     private PokeEvent CollisionEnded;
+
+    public HashSet<GameObject> collidedObjects;
+    public int numCollidedObjects;
     
     // Start is called before the first frame update
     void Start()
@@ -19,10 +20,10 @@ public class HandBoneCollisionDetector : MonoBehaviour
         sphereCollider = this.gameObject.AddComponent<SphereCollider>() as SphereCollider;
         sphereCollider.isTrigger = true;
         sphereCollider.radius = 0.01f;
-        
-        currentCollidingObj = null;
 
-        Debug.Log("started handbonecollisiondetector");
+        collidedObjects = new HashSet<GameObject>();
+        numCollidedObjects = 0;
+        
     }
 
     // Update is called once per frame
@@ -42,9 +43,11 @@ public class HandBoneCollisionDetector : MonoBehaviour
         if (other.gameObject.layer == 7) // If it touches another part of the body...
             return;
         
-        currentCollidingObj = other.gameObject;
-        CollisionStarted.Invoke(currentCollidingObj);
-        Debug.Log("TriggerEnterStarted: "+other.gameObject.layer+" "+currentCollidingObj.name);
+        collidedObjects.Add(other.gameObject);
+        numCollidedObjects++;
+
+        CollisionStarted.Invoke(other.gameObject);
+        Debug.Log("TriggerEnterStarted: "+other.gameObject.name);
     }
 
     private void OnTriggerExit(Collider other)
@@ -52,9 +55,11 @@ public class HandBoneCollisionDetector : MonoBehaviour
         if (other.gameObject.layer == 7) // If it touches another part of the body...
             return;
 
-        CollisionEnded.Invoke(currentCollidingObj);
-        Debug.Log("TriggerExitStarted: "+currentCollidingObj.name);
-        currentCollidingObj = null;
+        CollisionEnded.Invoke(other.gameObject);
+        Debug.Log("TriggerExitStarted: "+other.gameObject.name);
+        
+        collidedObjects.Remove(other.gameObject);
+        numCollidedObjects--;
     }
 
 

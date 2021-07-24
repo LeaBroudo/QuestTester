@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
 public class PokeEvent : UnityEvent<GameObject> {}
 
 public class HandCollisions : MonoBehaviour
