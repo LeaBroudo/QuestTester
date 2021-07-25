@@ -11,6 +11,9 @@ public class InputDeviceManager : MonoBehaviour
 
     public GameObject HandInteractionObjects;
     public GameObject ControllerInteractionObjects;
+
+    public bool onlyUseHands = false;
+    public bool onlyUseControllers = false;
     
     // Start is called before the first frame update
     void Start()
@@ -22,7 +25,7 @@ public class InputDeviceManager : MonoBehaviour
     void Update()
     {
         
-        if (isControllerConnected()) {
+        if (isControllerConnected() && !onlyUseHands) {
 
             //Turn off Hand related objects
             HandInteractionObjects.SetActive(false);
@@ -34,7 +37,7 @@ public class InputDeviceManager : MonoBehaviour
             ControllerInteractionObjects.SetActive(true);
             
         }
-        else {
+        else if (!onlyUseControllers) {
 
             //Turn off Controller related objects
             ControllerInteractionObjects.SetActive(false);

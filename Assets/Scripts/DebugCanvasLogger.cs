@@ -41,7 +41,8 @@ public class DebugCanvasLogger : MonoBehaviour
         // Delete oldest message
         if (queue.Count >= maxLines) queue.Dequeue();
 
-        queue.Enqueue(logString + stackTrace);
+        //queue.Enqueue(logString + stackTrace);
+        queue.Enqueue(logString);
 
         var builder = new StringBuilder();
         foreach (string st in queue)
