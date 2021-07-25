@@ -9,26 +9,24 @@ public class PokeEvent : UnityEvent<GameObject> {}
 public class HandCollisions : MonoBehaviour
 {
     private OVRSkeleton skeleton;
-    
-    public PokeEvent IndexCollisionStarted;
-    public PokeEvent IndexCollisionEnded;
+    private HandOutputArguments handOutputArguments;
+    public HashSet<HandBoneCollisionDetector> collisionDetectors;
  
     void Start() {
         
-        skeleton = GetComponent<OVRSkeleton>();
-        
-        if (IndexCollisionStarted == null)
-            IndexCollisionStarted = new PokeEvent();
+        Physics.IgnoreLayerCollision(7, 7);
 
-        if (IndexCollisionEnded == null)
-            IndexCollisionEnded = new PokeEvent();
+        skeleton = GetComponent<OVRSkeleton>();
+        handOutputArguments = GetComponent<HandOutputArguments>();
+        collisionDetectors = new HashSet<HandBoneCollisionDetector>();
         
         // Add collider to tip of index finger
         foreach(OVRBone bone in skeleton.Bones) {
             if (bone.Id == OVRSkeleton.BoneId.Hand_IndexTip) {
                 
                 HandBoneCollisionDetector detector = bone.Transform.gameObject.AddComponent<HandBoneCollisionDetector>() as HandBoneCollisionDetector;
-                detector.SetEvents(IndexCollisionStarted, IndexCollisionEnded);
+                detector.SetOutputArguments(handOutputArguments);
+                collisionDetectors.Add(detector);
             }
         }
     }

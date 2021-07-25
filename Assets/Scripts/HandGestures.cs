@@ -20,12 +20,12 @@ public class HandGestures : MonoBehaviour
     public UnityEvent IndexPinchingStarted;
     public UnityEvent IndexPinchingEnded;
     public UnityEvent IndexIsPinching;
-    private bool isIndexPinching;
+    public bool isIndexPinching;
 
     public PointingEvent HandPointingStarted;
     public PointingEvent HandPointingEnded;
     public PointingEvent HandIsPointing;
-    private bool isHandPointing;
+    public bool isHandPointing;
     
 
     

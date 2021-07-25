@@ -7,9 +7,7 @@ public class HandBoneCollisionDetector : MonoBehaviour
 {
     
     private SphereCollider sphereCollider;
-
-    private PokeEvent CollisionStarted;
-    private PokeEvent CollisionEnded;
+    private HandOutputArguments handOutputArguments;
 
     public HashSet<GameObject> collidedObjects;
     public int numCollidedObjects;
@@ -18,7 +16,7 @@ public class HandBoneCollisionDetector : MonoBehaviour
     void Start()
     {
         sphereCollider = this.gameObject.AddComponent<SphereCollider>() as SphereCollider;
-        sphereCollider.isTrigger = true;
+        //sphereCollider.isTrigger = true;
         sphereCollider.radius = 0.01f;
 
         collidedObjects = new HashSet<GameObject>();
@@ -32,34 +30,41 @@ public class HandBoneCollisionDetector : MonoBehaviour
         
     }
 
-    public void SetEvents(PokeEvent startEvent, PokeEvent endEvent) {
-
-        CollisionStarted = startEvent;
-        CollisionEnded = endEvent;
-    }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 7) // If it touches another part of the body...
-            return;
-        
+        // if (other.gameObject.layer == 7) // If it touches another part of the body...
+        //     return;
+        Debug.Log("HELLOOO!!");
         collidedObjects.Add(other.gameObject);
         numCollidedObjects++;
 
-        CollisionStarted.Invoke(other.gameObject);
-        Debug.Log("TriggerEnterStarted: "+other.gameObject.name);
+        // Interactable script lets the poked object respond to the poke
+        IHandInteractable interactableScript = other.gameObject.GetComponent<IHandInteractable>();
+        if (interactableScript != null) {
+            Debug.Log("TriggerEnterStarted: "+other.gameObject.name);
+            interactableScript.CollisionStarted(this.gameObject, other, handOutputArguments);
+        }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.layer == 7) // If it touches another part of the body...
-            return;
+        // if (other.gameObject.layer == 7) // If it touches another part of the body...
+        //     return;
 
-        CollisionEnded.Invoke(other.gameObject);
-        Debug.Log("TriggerExitStarted: "+other.gameObject.name);
+        // Interactable script lets the poked object respond to the poke
+        IHandInteractable interactableScript = other.gameObject.GetComponent<IHandInteractable>();
+        if (interactableScript != null) {
+            interactableScript.CollisionEnded(this.gameObject, other, handOutputArguments);
+            Debug.Log("TriggerExitStarted: "+other.gameObject.name);
+        }
+
         
         collidedObjects.Remove(other.gameObject);
         numCollidedObjects--;
+    }
+
+    public void SetOutputArguments(HandOutputArguments handOutputArgs) {
+        handOutputArguments = handOutputArgs;
     }
 
 

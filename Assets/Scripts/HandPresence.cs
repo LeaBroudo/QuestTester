@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HandPresence : MonoBehaviour
 {
-    public bool shouldShowHandPrefabs = false;
     private OVRHand hand; 
     private SkinnedMeshRenderer handRenderer;
 
