@@ -5,7 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.XR;
 
 [System.Serializable]
-public class PointingEvent : UnityEvent<Transform, Vector3> {}
+public class PointingEvent : UnityEvent<LeftOrRight, Transform, Vector3> {}
+public class GestureEvent : UnityEvent<LeftOrRight> {}
 
 public class HandGestures : MonoBehaviour
 {
@@ -17,9 +18,9 @@ public class HandGestures : MonoBehaviour
     public GameObject g1;
     public GameObject g2;
 
-    public UnityEvent IndexPinchingStarted;
-    public UnityEvent IndexPinchingEnded;
-    public UnityEvent IndexIsPinching;
+    public GestureEvent IndexPinchingStarted;
+    public GestureEvent IndexPinchingEnded;
+    public GestureEvent IndexIsPinching;
     public bool isIndexPinching;
 
     public PointingEvent HandPointingStarted;
@@ -27,7 +28,7 @@ public class HandGestures : MonoBehaviour
     public PointingEvent HandIsPointing;
     public bool isHandPointing;
     
-
+    private LeftOrRight leftOrRight; 
     
     // Start is called before the first frame update
     void Start()
@@ -35,17 +36,18 @@ public class HandGestures : MonoBehaviour
         handPresence = GetComponent<HandPresence>();
         hand = GetComponent<OVRHand>();
         skeleton = GetComponent<OVRSkeleton>();
+        leftOrRight = GetComponent<LeftOrRight>();
 
         isIndexPinching = false;
 
         if (IndexPinchingStarted == null)
-            IndexPinchingStarted = new UnityEvent();
+            IndexPinchingStarted = new GestureEvent();
 
         if (IndexPinchingEnded == null)
-            IndexPinchingEnded = new UnityEvent();
+            IndexPinchingEnded = new GestureEvent();
         
         if (IndexIsPinching == null)
-            IndexIsPinching = new UnityEvent();
+            IndexIsPinching = new GestureEvent();
         
         isHandPointing = false;
 
@@ -57,6 +59,19 @@ public class HandGestures : MonoBehaviour
         
         if (HandIsPointing == null)
             HandIsPointing = new PointingEvent();
+
+        var gestureableObjects = FindObjectsOfType<InteractableSphere>(true);
+        for(int i = 0; i < gestureableObjects.Length; i++)
+        {
+            gestureableObjects[i].gameObject.GetComponent<InteractableSphere>().SubscribeToEvents(
+                IndexPinchingStarted,
+                IndexPinchingEnded,
+                IndexIsPinching,
+                HandPointingStarted,
+                HandPointingEnded,
+                HandIsPointing
+            );
+        }
 
     }
 
@@ -84,16 +99,16 @@ public class HandGestures : MonoBehaviour
 
             if (isIndexPinching_new && !isIndexPinching) {
                 //Debug.Log("IndexPinchingStarted");
-                IndexPinchingStarted.Invoke();
+                IndexPinchingStarted.Invoke(leftOrRight);
             } 
             else if (!isIndexPinching_new && isIndexPinching) {
                 //Debug.Log("IndexPinchingEnded");
-                IndexPinchingEnded.Invoke();
+                IndexPinchingEnded.Invoke(leftOrRight);
             } 
             
             if (isIndexPinching_new) {
                 //Debug.Log("IndexIsPinching");
-                IndexIsPinching.Invoke();
+                IndexIsPinching.Invoke(leftOrRight);
             }
 
             isIndexPinching = isIndexPinching_new;
@@ -112,16 +127,16 @@ public class HandGestures : MonoBehaviour
 
         if (isHandPointing_new && !isHandPointing) {
             //Debug.Log("HandPointingStarted");
-            HandPointingStarted.Invoke(hand.PointerPose, hand.gameObject.transform.position);
+            HandPointingStarted.Invoke(leftOrRight, hand.PointerPose, hand.gameObject.transform.position);
         } 
         else if (!isHandPointing_new && isHandPointing) {
             //Debug.Log("HandPointingEnded");
-            HandPointingEnded.Invoke(hand.PointerPose, hand.gameObject.transform.position);
+            HandPointingEnded.Invoke(leftOrRight, hand.PointerPose, hand.gameObject.transform.position);
         } 
         
         if (isHandPointing_new) {
             //Debug.Log("HandIsPointing");
-            HandIsPointing.Invoke(hand.PointerPose, hand.gameObject.transform.position);
+            HandIsPointing.Invoke(leftOrRight, hand.PointerPose, hand.gameObject.transform.position);
         }
 
         isHandPointing = isHandPointing_new;

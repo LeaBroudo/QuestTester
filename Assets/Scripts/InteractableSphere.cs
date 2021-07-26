@@ -15,7 +15,10 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
 
     public bool isHandPointing { get; set; }
     public bool isIndexPinching { get; set; }
-    public static HandGestures handGestures;
+
+
+
+    
 
     
     // Start is called before the first frame update
@@ -24,10 +27,6 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
         kAnimSpeed = 0.3f;
         isBeingGrabbed = false;
-
-        if (handGestures == null) {
-            GameObject.Find();
-        }
     }
 
     // Update is called once per frame
@@ -36,20 +35,19 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         DuringGrab();
     }
 
-    public void CollisionStarted(GameObject bodyPart, Collision collision, HandOutputArguments handArgs) {
+    public void CollisionStarted(GameObject bodyPart, Collision collision) {
         Debug.Log("Sphere touched: "+bodyPart);
         //meshRenderer.materials[0] = actionMat;
         meshRenderer.material.color = Color.red;
 
         // TODO: check that it's index collision
-        // if (handArgs.GetGestureProperties().isIndexPinching) {
-        //     StartGrab(bodyPart.transform);
-        // }
+        if (isIndexPinching) {
+            StartGrab(bodyPart.transform);
+        }
 
-        //StartGrab(bodyPart.transform);
     }
 
-    public void CollisionEnded(GameObject bodyPart, Collision collision, HandOutputArguments handArgs) {
+    public void CollisionEnded(GameObject bodyPart, Collision collision) {
         Debug.Log("Sphere exited: "+bodyPart);
         //meshRenderer.materials[0] = baseMat;
         meshRenderer.material.color = Color.white;
@@ -82,6 +80,8 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
     
     public void EndGrab(Transform posToReturnTo) {
 
+        if (!isBeingGrabbed) return;
+        
         isBeingGrabbed = false;
         if (GrabAnimation != null)
             StopCoroutine(GrabAnimation);
@@ -112,27 +112,38 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         yield return null;
     }
 
-
-    public void SubscribeToEvents() {
-
+    
+    public void SubscribeToEvents(
+        GestureEvent indexPinchingStarted,
+        GestureEvent indexPinchingEnded,
+        GestureEvent indexIsPinching,
+        PointingEvent handPointingStarted,
+        PointingEvent handPointingEnded,
+        PointingEvent handIsPointing) 
+    {
+        indexPinchingStarted.AddListener(IndexPinchingStart);
+        indexPinchingEnded.AddListener(IndexPinchingEnd);
+        indexIsPinching.AddListener(IndexIsPinching);
+        handPointingStarted.AddListener(HandPointingStarted);
+        handPointingEnded.AddListener(HandPointingEnded);
+        handIsPointing.AddListener(HandIsPointing);
     }
-    public void IndexPinchingStart() {
-
+    
+    public void IndexPinchingStart(LeftOrRight leftOrRight) {
+        isIndexPinching = true;
+        Debug.Log("index start pinch");
     }
-    public void IndexPinchingEnd() {
+    public void IndexPinchingEnd(LeftOrRight leftOrRight) {
+        isIndexPinching = false;
+        Debug.Log("index end pinch");
 
+        EndGrab();
     }
-    public void IndexIsPinching() {
-
-    }
-
-    public void HandPointingStarted() {
+    public void IndexIsPinching(LeftOrRight leftOrRight) {
         
     }
-    public void HandPointingEnded() {
 
-    }
-    public void HandIsPointing() {
-
-    }
+    public void HandPointingStarted(LeftOrRight leftOrRight, Transform pointerPose, Vector3 pos) {}
+    public void HandPointingEnded(LeftOrRight leftOrRight, Transform pointerPose, Vector3 pos) {}
+    public void HandIsPointing(LeftOrRight leftOrRight, Transform pointerPose, Vector3 pos) {}
 }
