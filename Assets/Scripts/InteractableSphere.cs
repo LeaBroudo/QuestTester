@@ -9,7 +9,7 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
 
     public float kAnimSpeed { get; set; }
 
-    public Transform transToFollow { get; set; }
+    public GameObject objToFollow { get; set; }
     public IEnumerator GrabAnimation { get; set; }
     public IEnumerator ReleaseAnimation { get; set; }
 
@@ -17,6 +17,8 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
     public bool isIndexPinching { get; set; }
 
 
+    public HashSet<GameObject> collidingBodyParts { get; set; }
+    public GameObject BodyPart = null;
 
     
 
@@ -27,33 +29,42 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
         kAnimSpeed = 0.3f;
         isBeingGrabbed = false;
+
+        collidingBodyParts = new HashSet<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        DuringGrab();
+        // TODO: check that it's index collision
+        if (collidingBodyParts.Count > 0 && isIndexPinching) {
+            StartGrab(BodyPart);
+        } else {
+            DuringGrab();
+        }
+
+        
     }
 
     public void CollisionStarted(GameObject bodyPart, Collision collision) {
+        
+        // TODO: check a body part touched
+        collidingBodyParts.Add(bodyPart);
+        BodyPart = bodyPart;
+        
         Debug.Log("Sphere touched: "+bodyPart);
-        //meshRenderer.materials[0] = actionMat;
         meshRenderer.material.color = Color.red;
-
-        // TODO: check that it's index collision
-        if (isIndexPinching) {
-            StartGrab(bodyPart.transform);
-        }
 
     }
 
     public void CollisionEnded(GameObject bodyPart, Collision collision) {
         Debug.Log("Sphere exited: "+bodyPart);
-        //meshRenderer.materials[0] = baseMat;
         meshRenderer.material.color = Color.white;
+
+        collidingBodyParts.Remove(bodyPart);
     }
 
-    public void StartGrab(Transform transToFollow) {
+    public void StartGrab(GameObject objToFollow) {
 
         Debug.Log("started grab");
         if (ReleaseAnimation != null)
@@ -64,7 +75,7 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
 
         isBeingGrabbed = true;
 
-        GrabAnimation = MoveAToB(this.transform, transToFollow);
+        GrabAnimation = MoveAToB(this.gameObject, objToFollow);
         StartCoroutine(GrabAnimation);
     }
 
@@ -73,22 +84,22 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         if (isBeingGrabbed && GrabAnimation == null) {
             
             Debug.Log("during grab");
-            this.transform.position = transToFollow.position;
-            this.transform.rotation = transToFollow.rotation;
+            this.transform.position = objToFollow.transform.position;
+            this.transform.rotation = objToFollow.transform.rotation;
         }
     }
     
-    public void EndGrab(Transform posToReturnTo) {
+    // public void EndGrab(GameObje posToReturnTo) {
 
-        if (!isBeingGrabbed) return;
+    //     if (!isBeingGrabbed) return;
         
-        isBeingGrabbed = false;
-        if (GrabAnimation != null)
-            StopCoroutine(GrabAnimation);
+    //     isBeingGrabbed = false;
+    //     if (GrabAnimation != null)
+    //         StopCoroutine(GrabAnimation);
 
-        ReleaseAnimation = MoveAToB(this.transform, posToReturnTo);
-        StartCoroutine(ReleaseAnimation);
-    }
+    //     ReleaseAnimation = MoveAToB(this.transform, posToReturnTo);
+    //     StartCoroutine(ReleaseAnimation);
+    // }
 
     public void EndGrab() {
 
@@ -97,17 +108,17 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
             StopCoroutine(GrabAnimation);
     }
 
-    public IEnumerator MoveAToB(Transform a, Transform b) {
+    public IEnumerator MoveAToB(GameObject a, GameObject b) {
 
-        float distToTarget = Vector3.Distance(a.position, b.position);
-        while (distToTarget > 0.001f)
-        {
-            Debug.Log("moving...");
-            a.position = Vector3.Lerp(a.position, b.position, kAnimSpeed);
-            distToTarget = Vector3.Distance(a.position, b.position);
-            yield return new WaitForFixedUpdate();
-        }
-
+        // float distToTarget = Vector3.Distance(a.transform.position, b.transform.position);
+        // while (distToTarget > 0.001f)
+        // {
+        //     Debug.Log("moving...");
+        //     a.transform.position = Vector3.Lerp(a.transform.position, b.transform.position, kAnimSpeed);
+        //     distToTarget = Vector3.Distance(a.transform.position, b.transform.position);
+        //     yield return new WaitForFixedUpdate();
+        // }
+        a.transform.position = b.transform.position;
         GrabAnimation = null;
         yield return null;
     }

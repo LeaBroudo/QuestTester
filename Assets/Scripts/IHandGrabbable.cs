@@ -6,14 +6,13 @@ public interface IHandGrabbable
 {
     bool isBeingGrabbed { get; set; }
     float kAnimSpeed { get; set; }
-    Transform transToFollow { get; set; }
+    GameObject objToFollow { get; set; }
     IEnumerator GrabAnimation { get; set; }
     IEnumerator ReleaseAnimation { get; set; }
 
-    IEnumerator MoveAToB(Transform a, Transform b);
-    void StartGrab(Transform transToFollow);
+    IEnumerator MoveAToB(GameObject a, GameObject b);
+    void StartGrab(GameObject objToFollow);
     void DuringGrab();
     void EndGrab(); 
-    void EndGrab(Transform posToReturnTo);
     
 }
