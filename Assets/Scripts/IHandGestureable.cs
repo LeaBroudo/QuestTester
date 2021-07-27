@@ -4,8 +4,10 @@ using UnityEngine;
 
 public interface IHandGestureable
 {
-    bool isHandPointing { get; set; }
-    bool isIndexPinching { get; set; }
+    bool isHandPointingRight { get; set; }
+    bool isHandPointingLeft { get; set; }
+    bool isIndexPinchingRight { get; set; }
+    bool isIndexPinchingLeft { get; set; }
 
     void SubscribeToEvents(
         GestureEvent IndexPinchingStarted,

@@ -38,7 +38,6 @@ public class HandBoneCollisionDetector : MonoBehaviour
     {
         // if (other.gameObject.layer == 7) // If it touches another part of the body...
         //     return;
-        Debug.Log("HELLOOO!!");
         collidedObjects.Add(other.gameObject);
         numCollidedObjects++;
 
@@ -46,7 +45,7 @@ public class HandBoneCollisionDetector : MonoBehaviour
         IHandInteractable interactableScript = other.gameObject.GetComponent<IHandInteractable>();
         if (interactableScript != null) {
             Debug.Log("TriggerEnterStarted: "+other.gameObject.name);
-            interactableScript.CollisionStarted(this.gameObject, other);
+            interactableScript.IndexCollisionStarted(leftOrRight, this.gameObject, other);
         }
     }
 
@@ -58,7 +57,7 @@ public class HandBoneCollisionDetector : MonoBehaviour
         // Interactable script lets the poked object respond to the poke
         IHandInteractable interactableScript = other.gameObject.GetComponent<IHandInteractable>();
         if (interactableScript != null) {
-            interactableScript.CollisionEnded(this.gameObject, other);
+            interactableScript.IndexCollisionEnded(leftOrRight, this.gameObject, other);
             Debug.Log("TriggerExitStarted: "+other.gameObject.name);
         }
 

@@ -13,12 +13,16 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
     public IEnumerator GrabAnimation { get; set; }
     public IEnumerator ReleaseAnimation { get; set; }
 
-    public bool isHandPointing { get; set; }
-    public bool isIndexPinching { get; set; }
+    public bool isHandPointingRight { get; set; }
+    public bool isHandPointingLeft { get; set; }
+    public bool isIndexPinchingRight { get; set; }
+    public bool isIndexPinchingLeft { get; set; }
 
 
-    public HashSet<GameObject> collidingBodyParts { get; set; }
-    public GameObject BodyPart = null;
+    public GameObject rightIndexColliding { get; set; }
+    public GameObject leftIndexColliding { get; set; }
+
+    
 
     
 
@@ -29,39 +33,48 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
         kAnimSpeed = 0.3f;
         isBeingGrabbed = false;
-
-        collidingBodyParts = new HashSet<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // TODO: check that it's index collision
-        if (collidingBodyParts.Count > 0 && isIndexPinching) {
-            StartGrab(BodyPart);
-        } else {
+        if (rightIndexColliding != null && isIndexPinchingRight) {
+            StartGrab(rightIndexColliding);
+        } 
+        else if (leftIndexColliding != null && isIndexPinchingLeft) {
+            StartGrab(leftIndexColliding);
+        } 
+        else {
             DuringGrab();
         }
 
         
     }
 
-    public void CollisionStarted(GameObject bodyPart, Collision collision) {
+    public void IndexCollisionStarted(LeftOrRight leftOrRight, GameObject bodyPart, Collision collision) {
         
-        // TODO: check a body part touched
-        collidingBodyParts.Add(bodyPart);
-        BodyPart = bodyPart;
+        if (leftOrRight.isFromRightHand()) {
+            rightIndexColliding = bodyPart;
+        } 
+        else {
+            leftIndexColliding = bodyPart;
+        }
         
         Debug.Log("Sphere touched: "+bodyPart);
         meshRenderer.material.color = Color.red;
 
     }
 
-    public void CollisionEnded(GameObject bodyPart, Collision collision) {
+    public void IndexCollisionEnded(LeftOrRight leftOrRight, GameObject bodyPart, Collision collision) {
         Debug.Log("Sphere exited: "+bodyPart);
         meshRenderer.material.color = Color.white;
 
-        collidingBodyParts.Remove(bodyPart);
+        if (leftOrRight.isFromRightHand()) {
+            rightIndexColliding = null;
+        } 
+        else {
+            leftIndexColliding = null;
+        }
     }
 
     public void StartGrab(GameObject objToFollow) {
@@ -141,11 +154,21 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
     }
     
     public void IndexPinchingStart(LeftOrRight leftOrRight) {
-        isIndexPinching = true;
+
+        if (leftOrRight.isFromRightHand()) {
+            isIndexPinchingRight = true;
+        } else {
+            isIndexPinchingLeft = true;
+        }
         Debug.Log("index start pinch");
     }
     public void IndexPinchingEnd(LeftOrRight leftOrRight) {
-        isIndexPinching = false;
+        
+        if (leftOrRight.isFromRightHand()) {
+            isIndexPinchingRight = false;
+        } else {
+            isIndexPinchingLeft = false;
+        }
         Debug.Log("index end pinch");
 
         EndGrab();

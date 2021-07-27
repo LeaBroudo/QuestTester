@@ -4,7 +4,9 @@ using UnityEngine;
 
 public interface IHandInteractable
 {
-    HashSet<GameObject> collidingBodyParts { get; set; }
-    void CollisionStarted(GameObject bodyPart, Collision collision);
-    void CollisionEnded(GameObject bodyPart, Collision collision);
+    GameObject rightIndexColliding { get; set; }
+    GameObject leftIndexColliding { get; set; }
+
+    void IndexCollisionStarted(LeftOrRight leftOrRight, GameObject bodyPart, Collision collision);
+    void IndexCollisionEnded(LeftOrRight leftOrRight, GameObject bodyPart, Collision collision);
 }
