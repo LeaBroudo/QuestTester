@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbable, IHandGestureable
+public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGestureable, IHandGrabbable
 {
     private MeshRenderer meshRenderer;
     public bool isBeingGrabbed { get; set; }
@@ -60,13 +60,13 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
             leftIndexColliding = bodyPart;
         }
         
-        Debug.Log("Sphere touched: "+bodyPart);
+        //Debug.Log("Sphere touched: "+bodyPart);
         meshRenderer.material.color = Color.red;
 
     }
 
     public void IndexCollisionEnded(LeftOrRight leftOrRight, GameObject bodyPart, Collision collision) {
-        Debug.Log("Sphere exited: "+bodyPart);
+        //Debug.Log("Sphere exited: "+bodyPart);
         meshRenderer.material.color = Color.white;
 
         if (leftOrRight.isFromRightHand()) {
@@ -79,7 +79,7 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
 
     public void StartGrab(GameObject objToFollow) {
 
-        Debug.Log("started grab");
+        //Debug.Log("started grab");
         if (ReleaseAnimation != null)
         {
             StopCoroutine(ReleaseAnimation);
@@ -96,7 +96,7 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
 
         if (isBeingGrabbed && GrabAnimation == null) {
             
-            Debug.Log("during grab");
+            //Debug.Log("during grab");
             this.transform.position = objToFollow.transform.position;
             this.transform.rotation = objToFollow.transform.rotation;
         }
@@ -119,6 +119,7 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         isBeingGrabbed = false;
         if (GrabAnimation != null)
             StopCoroutine(GrabAnimation);
+
     }
 
     public IEnumerator MoveAToB(GameObject a, GameObject b) {
@@ -160,7 +161,7 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         } else {
             isIndexPinchingLeft = true;
         }
-        Debug.Log("index start pinch");
+        //Debug.Log("index start pinch");
     }
     public void IndexPinchingEnd(LeftOrRight leftOrRight) {
         
@@ -169,7 +170,7 @@ public class InteractableSphere : MonoBehaviour, IHandInteractable, IHandGrabbab
         } else {
             isIndexPinchingLeft = false;
         }
-        Debug.Log("index end pinch");
+        //Debug.Log("index end pinch");
 
         EndGrab();
     }

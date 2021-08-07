@@ -85,6 +85,10 @@ public class HandGestures : MonoBehaviour
             CheckHandPoint();
 
         } 
+        else {
+            isHandPointing = false;
+            isIndexPinching = false;
+        }
     }
 
     public void CheckIndexFingerPinch() {

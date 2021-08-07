@@ -9,8 +9,11 @@ public class PokeEvent : UnityEvent<GameObject> {}
 public class HandCollisions : MonoBehaviour
 {
     private OVRSkeleton skeleton;
-    public HashSet<HandBoneCollisionDetector> collisionDetectors;
     private LeftOrRight leftOrRight; 
+
+    private HandGrabber handGrabber;
+
+    public GameObject indexColliderObj;
  
     void Start() {
         
@@ -18,24 +21,35 @@ public class HandCollisions : MonoBehaviour
 
         skeleton = GetComponent<OVRSkeleton>();
         leftOrRight = GetComponent<LeftOrRight>();
-
-        collisionDetectors = new HashSet<HandBoneCollisionDetector>();
+        handGrabber = GetComponent<HandGrabber>();
         
-        // Add collider to tip of index finger
-        foreach(OVRBone bone in skeleton.Bones) {
-            if (bone.Id == OVRSkeleton.BoneId.Hand_IndexTip) {
-                
-                HandBoneCollisionDetector detector = bone.Transform.gameObject.AddComponent<HandBoneCollisionDetector>() as HandBoneCollisionDetector;
-                detector.SetLeftOrRight(leftOrRight);
-
-                collisionDetectors.Add(detector);
-            }
-        }
+        AddCollidersToHands();
+  
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void AddCollidersToHands() {
+
+        List<Collider> grabVolumes = new List<Collider>();
+
+        // Add collider to tip of index finger
+        foreach(OVRBone bone in skeleton.Bones) {
+            if (bone.Id == OVRSkeleton.BoneId.Hand_IndexTip) {
+                
+                HandBoneCollisionDetector detector = indexColliderObj.GetComponent<HandBoneCollisionDetector>();
+                detector.SetTransformToFollow(bone.Transform);
+                detector.SetCollisionCallback(handGrabber);
+                
+                // handGrabber.AddGripTransform(indexColliderObj.transform);
+                // grabVolumes.Add(indexColliderObj.GetComponent<Collider>());
+            }
+        }
+
+        //handGrabber.AddGrabVolumes(grabVolumes);
     }
 }
