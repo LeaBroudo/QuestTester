@@ -27,8 +27,23 @@ public class HandBoneCollisionDetector : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider otherCollider) {
+        
         Debug.Log("Triggered!!");
-        handGrabber.OnTriggerEnter(otherCollider);
+
+        if (otherCollider.gameObject.layer == LayerMask.NameToLayer("Interactable")) {
+            handGrabber.OnTriggerEnter(otherCollider);
+        } 
+        else if (otherCollider.gameObject.layer == LayerMask.NameToLayer("UI"))  {
+            
+            Button b = otherCollider.gameObject.GetComponent<Button>();
+            
+            if (b != null) {
+                b.onClick.Invoke();
+            }
+
+        }
+
+        
     }
 
     void OnTriggerExit(Collider otherCollider) {

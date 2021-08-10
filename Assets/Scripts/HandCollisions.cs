@@ -44,12 +44,7 @@ public class HandCollisions : MonoBehaviour
                 HandBoneCollisionDetector detector = indexColliderObj.GetComponent<HandBoneCollisionDetector>();
                 detector.SetTransformToFollow(bone.Transform);
                 detector.SetCollisionCallback(handGrabber);
-                
-                // handGrabber.AddGripTransform(indexColliderObj.transform);
-                // grabVolumes.Add(indexColliderObj.GetComponent<Collider>());
             }
         }
-
-        //handGrabber.AddGrabVolumes(grabVolumes);
     }
 }
