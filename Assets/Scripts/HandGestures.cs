@@ -124,8 +124,8 @@ public class HandGestures : MonoBehaviour
 
             
         //Debug.Log("Pointer Pose:" + hand.PointerPose.position);
-        g1.transform.position = this.transform.position;
-        g2.transform.position = this.transform.position + hand.PointerPose.forward;
+        if (g1 != null) g1.transform.position = this.transform.position;
+        if (g2 != null) g2.transform.position = this.transform.position + hand.PointerPose.forward;
 
         bool isHandPointing_new = hand.IsPointerPoseValid;
 

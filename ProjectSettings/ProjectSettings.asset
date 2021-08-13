@@ -147,7 +147,15 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 08430ae8e77714277b2e427273e0b4ec, type: 2}
+  - {fileID: 0}
+  - {fileID: 7231944982442327910, guid: 0b30a40f26acc41299ce07bf898a7a33, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -166,7 +174,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.LeaBroudo.QuestTester
-    Standalone: com.DefaultCompany.QuestTester
+    Standalone: com.LeaBroudo.QuestTester
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -452,9 +460,9 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: 
+  cameraUsageDescription: Yes
   locationUsageDescription: 
-  microphoneUsageDescription: 
+  microphoneUsageDescription: Yes
   switchNMETAOverride: 
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144
@@ -718,6 +726,7 @@ PlayerSettings:
   assemblyVersionValidation: 1
   gcWBarrierValidation: 0
   apiCompatibilityLevelPerPlatform:
+    Android: 6
     Standalone: 3
   m_RenderingPath: 1
   m_MobileRenderingPath: 1

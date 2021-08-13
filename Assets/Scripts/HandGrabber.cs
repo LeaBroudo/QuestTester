@@ -27,6 +27,13 @@ public class HandGrabber : OVRGrabber
         // Debug.Log("isPinching: "+handGestures.isIndexPinching+"\nGrabCandid: "+m_grabCandidates.Count);
         // Debug.Log("GripTrans: "+m_gripTransform+"\nm_grabVolumes: "+m_grabVolumes.Length);
         //if (!m_grabbedObj && handGestures.isIndexPinching && m_grabCandidates.Count > 0) {
+            Debug.Log("hi ");
+        Debug.Log("candidates: "+m_grabCandidates);
+        Debug.Log("gestures: "+handGestures);
+        Debug.Log("grabbed: "+m_grabbedObj);
+        // if (handGestures == null) {
+        //     handGestures = GetComponent<HandGestures>();
+        // }
         if (handGestures.isIndexPinching && m_grabCandidates.Count > 0) {
             GrabBegin();
         }
